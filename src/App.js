@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [task, setTask] = useState("")
+  const [todos, setTodos] = useState(["Write a task.", "Click on Add button to add it to the list."])
+
+  function createTodo() {
+    return setTodos(todos => [...todos, task])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Add Todo List</h1>
+        <input type="text" value={task} onChange={e => {
+          setTask(e.target.value)
+        }} />
+        <button onClick={createTodo}>Add</button>
+        <ul>
+          {todos.map((todo, index) => {
+            return <li key={index}>{todo}</li>
+          })}
+        </ul>
     </div>
   );
 }
