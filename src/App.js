@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+let globalID = 1
+
 function App() {
   const [task, setTask] = useState("")
-  const [todos, setTodos] = useState(["Write a task.", "Click on Add button to add it to the list."])
+  const [todos, setTodos] = useState([])
 
   function createTodo(event) {
     event.preventDefault();
 
     return setTodos(todos => {
       setTask("")
-      return [...todos, task]
+      return [...todos, { id: globalID++, content: task }]
     })
+  }
+
+  function deleteTodo(itemID) {
+    return setTodos(todos => todos.filter(todo => todo.id !== itemID))
   }
 
   return (
@@ -25,8 +31,13 @@ function App() {
         <button type="submit">Add</button>
       </form>
         <ul>
-          {todos.map((todo, index) => {
-            return <li key={index}>{todo}</li>
+          {todos.map((todo) => {
+            return (
+              <div key={todo.id}>
+                <li>{todo.id} {todo.content}</li>
+                <button onClick={() => deleteTodo(todo.id)}>DEL</button>
+              </div>
+            )
           })}
         </ul>
     </div>
