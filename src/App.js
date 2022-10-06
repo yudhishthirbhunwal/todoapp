@@ -5,26 +5,25 @@ function App() {
   const [task, setTask] = useState("")
   const [todos, setTodos] = useState(["Write a task.", "Click on Add button to add it to the list."])
 
-  function createTodo() {
+  function createTodo(event) {
+    event.preventDefault();
+
     return setTodos(todos => {
       setTask("")
       return [...todos, task]
     })
   }
 
-  function createOnEnter(e) {
-    if (e.keyCode === 13) {
-      createTodo()
-    }
-  }
-
   return (
     <div className="App">
       <h1>Add Todo List</h1>
-        <input type="text" value={task} onKeyDown={createOnEnter} onChange={e => {
-          setTask(e.target.value)
+      <form onSubmit={createTodo}>
+        <input type="text" value={task}
+                onChange={e => {
+                  setTask(e.target.value)
         }} />
-        <button onClick={createTodo}>Add</button>
+        <button type="submit">Add</button>
+      </form>
         <ul>
           {todos.map((todo, index) => {
             return <li key={index}>{todo}</li>
